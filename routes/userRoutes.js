@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const User = require("../models/userModel");
 
-router.post("/signup", (req, res) => {
-	const { name, email, password, isSeller } = req.body;
-  
-});
+const registerInitialChecks = require("../middlewares/registerChecks");
+const register = require("../controllers/register");
+
+router.post("/signup", registerInitialChecks, register);
 
 module.exports = router;
