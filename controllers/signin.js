@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const signin = async (req, res) => {
 	const { email, password } = req.body;
@@ -17,9 +18,16 @@ const signin = async (req, res) => {
 			return res.status(404).json({ err: "Incorrect password" });
 		}
 
+		const payload = { user: { id: isExistingUser.id } };
+		const bearerToken = await jwt.sign(payload, "SECRET", {
+			expiresIn: 360000
+		});
+		res.cookie("token", bearerToken, { expire: new Date() + 9999 });
+
 		res.status(200).json({
 			status: "ok",
-			message: `Congratulations ${isExistingUser.name}`
+			message: "Signed In Successfully!",
+			bearerToken: bearerToken
 		});
 	} catch (err) {
 		console.log(err.message);
