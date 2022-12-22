@@ -1,6 +1,6 @@
 const { validateEmail, validatePassword } = require("../utils/validate");
 
-const registerInitialChecks = (req, res, next) => {
+const signupInitialChecks = (req, res, next) => {
 	const { name, email, password } = req.body;
 	if (
 		typeof name == "string" &&
@@ -14,8 +14,8 @@ const registerInitialChecks = (req, res, next) => {
 	) {
 		next();
 	} else {
-		res.status(400).send("Initial checks failed");
+		res.status(400).json({err : "Initial checks failed"});
 	}
 };
 
-module.exports = registerInitialChecks;
+module.exports = signupInitialChecks;

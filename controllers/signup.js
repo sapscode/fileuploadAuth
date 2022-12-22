@@ -6,7 +6,7 @@ const register = async (req, res) => {
 	try {
 		const isExistingUser = await User.findOne({ where: { email } });
 		if (isExistingUser) {
-			res.status(500).json(`User ${isExistingUser.name} already exists`);
+			res.status(403).json({err: `User ${isExistingUser.name} already exists`});
 		} else {
 			const encPassword = await bcrypt.hash(password, 10);
 			const newUser = await User.create({
@@ -21,9 +21,9 @@ const register = async (req, res) => {
 				message: `Welcome to the store ${newUser.name}. Thank you for signing up`
 			});
 		}
-	} catch (e) {
-		console.log(e.message);
-		res.status(500).json({ e: e.message });
+	} catch (err) {
+		console.log(err.message);
+		res.status(500).json({ err: err.message });
 	}
 };
 
