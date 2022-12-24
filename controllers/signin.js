@@ -19,7 +19,7 @@ const signin = async (req, res) => {
 		}
 
 		const payload = { user: { id: isExistingUser.id } };
-		const bearerToken = await jwt.sign(payload, "SECRET", {
+		const bearerToken = await jwt.sign(payload, "This is our secret", {
 			expiresIn: 360000
 		});
 		res.cookie("token", bearerToken, { expire: new Date() + 9999 });
